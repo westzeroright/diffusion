@@ -29,13 +29,13 @@ def main():
                                num_timesteps=1_000)
     print(diffusion)
     # load data
-    dataset = load_dataset("huggan/smithsonian_butterflies_subset") #"tglcourse/CelebA-faces-cropped-128"
+    dataset = load_dataset("/Users/dubu1001/Desktop/diffusion/my_folder") #"tglcourse/CelebA-faces-cropped-128"
     train_dataset = dataset['train']
     train_dataset.set_transform(transform)
     train_dataloader = DataLoader(train_dataset, batch_size=128)
     optimizer = torch.optim.AdamW(diffusion.parameters(), lr=2e-5)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=2000)
-    diffusion.to(torch.device("cuda"))
+    diffusion.to(torch.device("cpu"))
 
     best_loss = 100
     for epoch in range(1_000):
@@ -43,7 +43,7 @@ def main():
         print(f"{epoch}th epoch training...")
         loss_total = 0
         for batch_idx, batch in enumerate(tqdm(train_dataloader)):
-            data = batch['img_input'].to("cuda")
+            data = batch['img_input'].to("cpu")
             optimizer.zero_grad()
             loss = diffusion(data)
             loss.backward()
