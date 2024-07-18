@@ -29,7 +29,7 @@ def main():
                                num_timesteps=1_000)
     print(diffusion)
     # load data
-    dataset = load_dataset("my_folder") #"tglcourse/CelebA-faces-cropped-128"
+    dataset = load_dataset("data") #"tglcourse/CelebA-faces-cropped-128"
     train_dataset = dataset['train']
     train_dataset.set_transform(transform)
     train_dataloader = DataLoader(train_dataset, batch_size=128)
